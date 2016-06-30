@@ -16,5 +16,4 @@ service docker start
 docker run hello-world
 
 groupadd docker
-usermod -aG docker jason
-usermod -aG docker corbin
+usermod -aG docker rakurai
