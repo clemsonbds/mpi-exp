@@ -36,7 +36,8 @@ int main (int argc, char **argv)
     }
   }
   else {
-    for (int i = 1; i <= num_iterations; i++) {
+    int i;
+    for (i = 1; i <= num_iterations; i++) {
       if (i == num_iterations)
         stopping = 1;
 
