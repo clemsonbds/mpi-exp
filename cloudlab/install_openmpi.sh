@@ -1,4 +1,4 @@
 #!/bin/bash
 
-apt-update
+apt-get update
 apt-get install -y openmpi-checkpoint libopenmpi-dev
