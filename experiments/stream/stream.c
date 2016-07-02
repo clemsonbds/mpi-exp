@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
 
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
+    MPI_Barrier(MPI_COMM_WORLD);
+
     if (myid == 1) {
 	int remaining = iterations+1;
 
@@ -24,6 +26,7 @@ int main(int argc, char *argv[])
             int buf = remaining;
             MPI_Isend(&buf, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
             usleep(1000);
+            MPI_Wait(&request, MPI_STATUS_IGNORE);
         }
     }
     else if (myid == 0) {
