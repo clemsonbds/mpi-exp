@@ -1,5 +1,8 @@
 #include "mpi.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 int main(int argc, char *argv[])
 {
     int myid;
@@ -14,15 +17,16 @@ int main(int argc, char *argv[])
     int iterations = atoi(argv[1]);
 
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
+    int buf;
 
-    if (my_id == 1) {
+    if (myid == 1) {
         while (iterations--) {
-            int buf = iterations;
+            buf = iterations;
             MPI_Isend(&buf, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
             usleep(1000);
         }
     }
-    else if (my_id == 0) {
+    else if (myid == 0) {
         double t, last_t;
         last_t = MPI_Wtime();
 
