@@ -5,42 +5,43 @@
 
 int main(int argc, char *argv[])
 {
-    int myid;
-//, numprocs, left, right;
-//    int iter;
-//    int buffer[10], buffer2[10];
+    int myid, iterations;
     MPI_Request request;
-//    MPI_Status status;
 
     MPI_Init(&argc,&argv);
 
-    int iterations = atoi(argv[1]);
+    if (argc > 1)
+        iterations = atoi(argv[1]);
+    else
+        iterations = 2;
 
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
-    int buf;
 
     if (myid == 1) {
-        while (iterations--) {
-            buf = iterations;
+	int remaining = iterations+1;
+
+        while (remaining--) {
+            int buf = remaining;
             MPI_Isend(&buf, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
             usleep(1000);
         }
     }
     else if (myid == 0) {
-        double t, last_t;
-        last_t = MPI_Wtime();
+        double last_t = MPI_Wtime();
+	int diff, remaining;
 
-        while (iterations) {
-            MPI_Recv(&iterations, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            int diff = (MPI_Wtime() - last_t) * 1000000;
-            printf("%d", diff);
-        }
+        do {
+            MPI_Recv(&remaining, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+            double t = MPI_Wtime();
+            int diff = (t - last_t) * 1000000;
+            last_t = t;
+
+            if (remaining < iterations)
+                printf("%d\n", diff);
+
+        } while (remaining);
     }
-
-//    MPI_Irecv(buffer, 10, MPI_INT, left, 123, MPI_COMM_WORLD, &request);
-//    MPI_Isend(buffer2, 10, MPI_INT, right, 123, MPI_COMM_WORLD, &request2);
-//    MPI_Wait(&request, &status);
-//    MPI_Wait(&request2, &status);
 
     MPI_Finalize();
     return 0;
