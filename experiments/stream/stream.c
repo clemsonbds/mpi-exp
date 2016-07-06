@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
             int buf = remaining;
             MPI_Isend(&buf, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
             int i;
-            for (i = 0; i < 200000000; i++);
+            for (i = 0; i < 500000; i++);
 //            usleep(1000);
             MPI_Wait(&request, MPI_STATUS_IGNORE);
         }
