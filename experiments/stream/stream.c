@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 
 int main(int argc, char *argv[])
 {
@@ -34,9 +35,15 @@ int main(int argc, char *argv[])
             last_t = t;
 
             MPI_Isend(&diff, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
-            int i;
-            for (i = 0; i < 200000; i++);
-//            usleep(1000);
+
+            struct timespec req, rem;
+            req.tv_sec = 0;
+            req.tv_nsec = 1000000;
+            while (nanosleep(&req, &rem) == -1) {
+                req.tv_sec = rem.tv_sec;
+                req.tv_nsec = rem.tv_nsec;
+            }
+
             MPI_Wait(&request, MPI_STATUS_IGNORE);
         }
     }
