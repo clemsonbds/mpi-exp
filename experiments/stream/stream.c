@@ -13,18 +13,27 @@ int main(int argc, char *argv[])
     if (argc > 1)
         iterations = atoi(argv[1]);
     else
-        iterations = 2;
+        iterations = 1;
 
+    iterations++;
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
     MPI_Barrier(MPI_COMM_WORLD);
 
-    if (myid == 1) {
-	int remaining = iterations+1;
+    double last_t = 0.0;
 
-        while (remaining--) {
-            int buf = remaining;
-            MPI_Isend(&buf, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
+    if (myid == 0) {
+        int diff = 0;
+
+        while (iterations--) {
+            double t = MPI_Wtime();
+
+            if (last_t != 0)
+                diff = (t - last_t) * 1000000;
+
+            last_t = t;
+
+            MPI_Isend(&diff, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
             int i;
             for (i = 0; i < 200000; i++);
 //            usleep(1000);
@@ -32,20 +41,20 @@ int main(int argc, char *argv[])
         }
     }
     else if (myid == 0) {
-        double last_t = MPI_Wtime();
-	int diff, remaining;
+	int send_diff;
 
-        do {
-            MPI_Recv(&remaining, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        while (iterations--) {
+            MPI_Recv(&send_diff, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             double t = MPI_Wtime();
-            int diff = (t - last_t) * 1000000;
+
+            if (last_t != 0) {
+                int recv_diff = (t - last_t) * 1000000;
+                printf("%d\t%d\n", send_diff, recv_diff);
+            }
+
             last_t = t;
-
-            if (remaining < iterations)
-                printf("%d\n", diff);
-
-        } while (remaining);
+        }
     }
 
     MPI_Finalize();
