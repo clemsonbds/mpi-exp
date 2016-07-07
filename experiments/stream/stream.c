@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
     double last_t = 0.0;
 
-    if (myid == 0) {
+    if (myid == 1) {
         int diff = 0;
 
         while (iterations--) {
