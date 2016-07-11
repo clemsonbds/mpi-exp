@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
             last_t = t;
 
             MPI_Isend(&diff, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &request);
-
+/*
             struct timespec req, rem;
             req.tv_sec = 0;
             req.tv_nsec = 1000000;
@@ -43,7 +43,8 @@ int main(int argc, char *argv[])
                 req.tv_sec = rem.tv_sec;
                 req.tv_nsec = rem.tv_nsec;
             }
-
+*/
+            usleep(1000, NULL);
             MPI_Wait(&request, MPI_STATUS_IGNORE);
         }
     }
