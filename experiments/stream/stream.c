@@ -44,7 +44,8 @@ int main(int argc, char *argv[])
                 req.tv_nsec = rem.tv_nsec;
             }
 */
-            usleep(1000, NULL);
+            usleep(1000);
+
             MPI_Wait(&request, MPI_STATUS_IGNORE);
         }
     }
