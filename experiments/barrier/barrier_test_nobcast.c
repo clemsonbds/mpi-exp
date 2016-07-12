@@ -30,7 +30,7 @@ int main (int argc, char **argv)
    **/
   int stopping = 0;
   if (my_id > 0) {
-    while (!stopping) {
+    while (num_iterations--) {
 //      MPI_Bcast(&stopping, 1, MPI_INT, root_process, MPI_COMM_WORLD);
       MPI_Barrier (MPI_COMM_WORLD);
     }
