@@ -48,7 +48,7 @@ int main (int argc, char **argv)
       MPI_Barrier (MPI_COMM_WORLD);
       t2 = MPI_Wtime();
 
-      usleep(100);
+      usleep(1000);
 
       if (my_id == root_process)
         printf ("%f\n", t2-t1);
