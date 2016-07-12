@@ -7,5 +7,11 @@ bridge=br0
 ip link add name $bridge type bridge
 ip link set $bridge up
 ip link set $iface master $bridge
-ifconfig $bridge $addr
+
+ip link add tap1 type veth peer name br-tap1
+ip link set br-tap1 master $bridge
+ip link set tap1 up
+ip link set br-tap1 up
+
+ifconfig tap1 $addr
 ifconfig $iface 0
