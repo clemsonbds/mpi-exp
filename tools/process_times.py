@@ -16,7 +16,7 @@ if __name__ == "__main__":
 	with open(sys.argv[1]) as f:
 		for line in f.readlines():
 			time = float(line)
-			times.append(int(time*1000000))
+			times.append((int)(time*1000000))
 
 	bins = to_bins.to_bins(times, bin_size_us)
 
