@@ -8,11 +8,7 @@ with open(filename) as f:
 	in_summary = False
 
 	for line in f.readlines():
-		if "Summary" in line:
-			in_summary = not in_summary
-			continue
-
-		if not in_summary:
+		if 'Begin' in line or 'End' in line:
 			continue
 
 		label, value = line.strip().split("=")
