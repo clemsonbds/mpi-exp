@@ -34,13 +34,14 @@ int main(int argc, char *argv[])
 
     MPI_Barrier(MPI_COMM_WORLD);
 
-    unsigned long long send_t, recv_t;
+//    unsigned long long send_t, recv_t;
+    double send_t, recv_t;
 
     if (myid == 1) {
         while (iterations--) {
-//            send_t = MPI_Wtime();
-            send_t = rdtsc();
-            MPI_Isend(&send_t, 1, MPI_UNSIGNED_LONG_LONG, 0, 1, MPI_COMM_WORLD, &request);
+            send_t = MPI_Wtime();
+//            send_t = rdtsc();
+            MPI_Isend(&send_t, 1, MPI_DOUBLE, 0, 1, MPI_COMM_WORLD, &request);
 /*
             struct timespec req, rem;
             req.tv_sec = 0;
@@ -59,15 +60,15 @@ int main(int argc, char *argv[])
     }
     else if (myid == 0) {
         while (iterations--) {
-            MPI_Recv(&send_t, 1, MPI_UNSIGNED_LONG_LONG, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-//            recv_t = MPI_Wtime();
-            recv_t = rdtsc();
+            MPI_Recv(&send_t, 1, MPI_DOUBLE, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            recv_t = MPI_Wtime();
+//            recv_t = rdtsc();
 
-            double send_usec = send_t/(double)2600;
-            double recv_usec = recv_t/(double)2600;
+//            double send_usec = send_t/(double)2600;
+//            double recv_usec = recv_t/(double)2600;
 
-//            printf("%lld\t%lld\n", send_t, recv_t);
-            printf("%f\t%f\n", send_usec, recv_usec);
+            printf("%f\t%f\n", send_t, recv_t);
+//            printf("%f\t%f\n", send_usec, recv_usec);
         }
     }
 
