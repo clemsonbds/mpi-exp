@@ -63,9 +63,11 @@ int main(int argc, char *argv[])
 //            recv_t = MPI_Wtime();
             recv_t = rdtsc();
 
-            
+            double send_usec = send_t/(double)2600;
+            double recv_usec = recv_t/(double)2600;
 
-            printf("%lld\t%lld\n", send_t, recv_t);
+//            printf("%lld\t%lld\n", send_t, recv_t);
+            printf("%f\t%f\n", send_usec, recv_usec);
         }
     }
 
