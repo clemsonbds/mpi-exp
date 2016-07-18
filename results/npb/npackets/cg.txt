@@ -1,0 +1,10 @@
+          RX packets:51324565 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:64013316 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:115019443680 (115.0 GB)  TX bytes:116430824205 (116.4 GB)
+
+          RX packets:52895050 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:65172903 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:119580329705 (119.5 GB)  TX bytes:120965103158 (120.9 GB)
+
