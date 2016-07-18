@@ -34,8 +34,8 @@ ADD machinefile machinefile
 
 ADD barrier/barrier_test.c barrier_test.c
 RUN mpicc -std=gnu99 -o barrier_test barrier_test.c
-ADD stream/stream.c stream.c
-RUN mpicc -std=gnu99 -o stream stream.c
+ADD stream/stream2.c stream2.c
+RUN mpicc -std=gnu99 -o stream2 stream2.c
 
 RUN chgrp -R $USER $HOME
 RUN chown -R $USER $HOME
